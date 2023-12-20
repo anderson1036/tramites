@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consulta de Trámites</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Espacio para la imagen en el nav -->
+  <nav>
+    <img src="Adventure Awaits, Will You Answer.png" alt="Logo">
+  </nav>
+
+  <h1>Consulta de Trámites</h1>
+
+  <form id="consultaForm">
+    <label for="categoria">Categoría:</label>
+    <select id="categoria" name="categoria" onchange="cambiarSubcategorias()">
+      <option value="">Selecciona una categoría</option>
+      <option value="eps">EPS (Entidad Promotora de Salud)</option>
+      <option value="transito">Tránsito</option>
+      <option value="fiscalia">Fiscalía</option>
+      <option value="educacion">Educación</option>
+      <option value="vivienda">Vivienda</option>
+      <option value="empleo">Empleo</option>
+      <option value="migracion">Migración</option>
+      <option value="salud">Salud</option>
+      <option value="finanzas">Finanzas</option>
+      <option value="legal">Legal</option>
+      <option value="transporte">Transporte</option>
+      <option value="turismo">Turismo</option>
+      <option value="asuntosSociales">Asuntos Sociales</option>
+    </select>
+
+    <label for="subcategoria">Subcategoría:</label>
+    <select id="subcategoria" name="subcategoria" disabled>
+      <option value="">Selecciona una subcategoría</option>
+    </select>
+
+    <button type="button" onclick="mostrarRequisitos()">Buscar Trámites</button>
+  </form>
+
+  <div id="requisitos"></div>
+
+  <footer>
+    <p>Diseñada por Anderson Castro</p>
+  </footer>
+
+  <script>
+    function cambiarSubcategorias() {
+      var categoriaSeleccionada = document.getElementById('categoria').value;
+      var subcategoriaSelect = document.getElementById('subcategoria');
+
+      // Reiniciar y deshabilitar el select de subcategorías.
+      subcategoriaSelect.innerHTML = '<option value="">Selecciona una subcategoría</option>';
+      subcategoriaSelect.disabled = false;
+
+      // Llenar el select de subcategorías según la categoría seleccionada.
+      if (categoriaSeleccionada === 'eps') {
+        agregarOpcion(subcategoriaSelect, 'afiliacion', 'Afiliación');
+        agregarOpcion(subcategoriaSelect, 'actualizacionDatos', 'Actualización de Datos');
+        agregarOpcion(subcategoriaSelect, 'solicitudServicios', 'Solicitud de Servicios');
+      } else if (categoriaSeleccionada === 'transito') {
+        agregarOpcion(subcategoriaSelect, 'matriculacion', 'Matriculación de Vehículo Nuevo');
+        agregarOpcion(subcategoriaSelect, 'renovacionMatricula', 'Renovación de Matrícula');
+        agregarOpcion(subcategoriaSelect, 'traspaso', 'Traspaso de Vehículo');
+      } else if (categoriaSeleccionada === 'fiscalia') {
+        agregarOpcion(subcategoriaSelect, 'denuncia', 'Presentar Denuncia');
+        agregarOpcion(subcategoriaSelect, 'seguimientoCaso', 'Seguimiento de Caso');
+        agregarOpcion(subcategoriaSelect, 'asesoriaJuridica', 'Asesoría Jurídica');
+      } else if (categoriaSeleccionada === 'educacion') {
+        agregarOpcion(subcategoriaSelect, 'inscripcionCursos', 'Inscripción a Cursos o Programas Académicos');
+        agregarOpcion(subcategoriaSelect, 'solicitudCertificados', 'Solicitud de Certificados Académicos');
+        agregarOpcion(subcategoriaSelect, 'becasAyudas', 'Trámites relacionados con Becas y Ayudas Económicas');
+      } else if (categoriaSeleccionada === 'vivienda') {
+        agregarOpcion(subcategoriaSelect, 'compraAlquilerPropiedades', 'Trámites para Compra o Alquiler de Propiedades');
+        agregarOpcion(subcategoriaSelect, 'serviciosPublicos', 'Solicitud de Servicios Públicos para una Nueva Vivienda');
+      } else if (categoriaSeleccionada === 'empleo') {
+        agregarOpcion(subcategoriaSelect, 'busquedaEmpleo', 'Procesos de Búsqueda de Empleo');
+        agregarOpcion(subcategoriaSelect, 'creacionCurriculos', 'Trámites para la Creación de Currículos');
+        agregarOpcion(subcategoriaSelect, 'solicitudCertificadosLaborales', 'Solicitud de Certificados Laborales');
+      } else if (categoriaSeleccionada === 'migracion') {
+        agregarOpcion(subcategoriaSelect, 'obtencionVisas', 'Trámites para la Obtención de Visas');
+        agregarOpcion(subcategoriaSelect, 'residenciaPermanente', 'Procedimientos para la Residencia Permanente');
+        agregarOpcion(subcategoriaSelect, 'ciudadaniaNaturalizacion', 'Información sobre Ciudadanía y Naturalización');
+      } else if (categoriaSeleccionada === 'salud') {
+        agregarOpcion(subcategoriaSelect, 'afiliacionServiciosMedicos', 'Afiliación a Servicios Médicos');
+        agregarOpcion(subcategoriaSelect, 'citasMedicas', 'Solicitud de Citas Médicas');
+        agregarOpcion(subcategoriaSelect, 'tramitesMedicamentos', 'Trámites para Obtener Medicamentos');
+      } else if (categoriaSeleccionada === 'finanzas') {
+        agregarOpcion(subcategoriaSelect, 'aperturaCuentasBancarias', 'Apertura de Cuentas Bancarias');
+        agregarOpcion(subcategoriaSelect, 'solicitudPrestamosCreditos', 'Solicitud de Préstamos o Créditos');
+        agregarOpcion(subcategoriaSelect, 'declaracionImpuestos', 'Procedimientos para la Declaración de Impuestos');
+      } else if (categoriaSeleccionada === 'legal') {
+        agregarOpcion(subcategoriaSelect, 'asesoramientoLegal', 'Asesoramiento Legal');
+        agregarOpcion(subcategoriaSelect, 'creacionEmpresas', 'Trámites para la Creación de Empresas');
+        agregarOpcion(subcategoriaSelect, 'resolucionDisputasLegales', 'Procedimientos para la Resolución de Disputas Legales');
+      } else if (categoriaSeleccionada === 'transporte') {
+        agregarOpcion(subcategoriaSelect, 'renovacionLicenciasConducir', 'Renovación o Solicitud de Licencias de Conducir');
+        agregarOpcion(subcategoriaSelect, 'compraVentaVehiculos', 'Trámites Relacionados con la Compra o Venta de Vehículos');
+        agregarOpcion(subcategoriaSelect, 'inscripcionCursosSeguridadVial', 'Inscripción a Cursos de Seguridad Vial');
+      } else if (categoriaSeleccionada === 'turismo') {
+        agregarOpcion(subcategoriaSelect, 'obtencionVisasTuristicas', 'Procesos para la Obtención de Visas Turísticas');
+        agregarOpcion(subcategoriaSelect, 'informacionTuristica', 'Solicitud de Información Turística');
+        agregarOpcion(subcategoriaSelect, 'reservasTramitesTuristicos', 'Reservas y Trámites para Actividades Turísticas');
+      } else if (categoriaSeleccionada === 'asuntosSociales') {
+        agregarOpcion(subcategoriaSelect, 'tramitesAdopciones', 'Trámites Relacionados con Adopciones');
+        agregarOpcion(subcategoriaSelect, 'registroProgramasAsistenciaSocial', 'Registro para Programas de Asistencia Social');
+        agregarOpcion(subcategoriaSelect, 'procedimientosCambiosNombre', 'Procedimientos para Cambios de Nombre');
+      }
+    }
+
+    function agregarOpcion(select, valor, texto) {
+      var opcion = document.createElement('option');
+      opcion.value = valor;
+      opcion.text = texto;
+      select.add(opcion);
+    }
+
+    function mostrarRequisitos() {
+      var categoriaSeleccionada = document.getElementById('categoria').value;
+      var subcategoriaSeleccionada = document.getElementById('subcategoria').value;
+      var requisitosContainer = document.getElementById('requisitos');
+
+      // Restablecer el contenido de requisitos.
+      requisitosContainer.innerHTML = '';
+
+      // Validar que se haya seleccionado una subcategoría.
+      if (!subcategoriaSeleccionada) {
+        alert('Por favor, selecciona una subcategoría antes de buscar trámites.');
+        return;
+      }
+
+      // Mostrar requisitos según la categoría y subcategoría seleccionadas.
+      var requisitos = obtenerRequisitos(categoriaSeleccionada, subcategoriaSeleccionada);
+
+      // Muestra los requisitos en el contenedor correspondiente.
+      requisitosContainer.innerHTML = requisitos;
+    }
+
+    function obtenerRequisitos(categoria, subcategoria) {
+      var requisitos = '';
+
+      switch (categoria) {
+        case 'eps':
+          requisitos = obtenerRequisitosEPSSubcategoria(subcategoria);
+          break;
+        case 'transito':
+          requisitos = obtenerRequisitosTransitoSubcategoria(subcategoria);
+          break;
+        case 'fiscalia':
+          requisitos = obtenerRequisitosFiscaliaSubcategoria(subcategoria);
+          break;
+        case 'educacion':
+          requisitos = obtenerRequisitosEducacionSubcategoria(subcategoria);
+          break;
+        case 'vivienda':
+          requisitos = obtenerRequisitosViviendaSubcategoria(subcategoria);
+          break;
+        case 'empleo':
+          requisitos = obtenerRequisitosEmpleoSubcategoria(subcategoria);
+          break;
+        case 'migracion':
+          requisitos = obtenerRequisitosMigracionSubcategoria(subcategoria);
+          break;
+        case 'salud':
+          requisitos = obtenerRequisitosSaludSubcategoria(subcategoria);
+          break;
+        case 'finanzas':
+          requisitos = obtenerRequisitosFinanzasSubcategoria(subcategoria);
+          break;
+        case 'legal':
+          requisitos = obtenerRequisitosLegalSubcategoria(subcategoria);
+          break;
+        case 'transporte':
+          requisitos = obtenerRequisitosTransporteSubcategoria(subcategoria);
+          break;
+        case 'turismo':
+          requisitos = obtenerRequisitosTurismoSubcategoria(subcategoria);
+          break;
+        case 'asuntosSociales':
+          requisitos = obtenerRequisitosAsuntosSocialesSubcategoria(subcategoria);
+          break;
+      }
+
+      return requisitos;
+    }
+
+    function obtenerRequisitosEPSSubcategoria(subcategoria) {
+      switch (subcategoria) {
+        case 'afiliacion':
+          return "<strong>Requisitos para Afiliación a EPS:</strong><br>1. Diligenciar formulario de afiliación.<br>2. Presentar copia de cédula.<br>3. Certificado de EPS anterior, si aplica.";
+        case 'actualizacionDatos':
+          return "<strong>Requisitos para Actualización de Datos en EPS:</strong><br>1. Formulario de actualización de datos.<br>2. Documento que certifique el cambio a actualizar (por ejemplo, nueva dirección, estado civil).";
+        case 'solicitudServicios':
+          return "<strong>Requisitos para Solicitud de Servicios en EPS:</strong><br>1. Solicitud de servicios médicos.<br>2. Documento médico que respalde la solicitud (por ejemplo, receta médica).";
+        default:
+          return '';
+      }
+    }
+
+    function obtenerRequisitosTransitoSubcategoria(subcategoria) {
+      switch (subcategoria) {
+        case 'matriculacion':
+          return "<strong>Requisitos para Matriculación de Vehículo Nuevo:</strong><br>1. Factura de compra del vehículo.<br>2. Certificado de origen o de ensamblaje.<br>3. Copia de la cédula del comprador.<br>4. Certificado de Revisión Técnico-Mecánica.<br>5. Póliza de seguro obligatorio (SOAT).<br>6. Formulario de solicitud de matrícula.";
+        case 'renovacionMatricula':
+          return "<strong>Requisitos para Renovación de Matrícula:</strong><br>1. Cédula del propietario.<br>2. Certificado de Revisión Técnico-Mecánica actualizado.<br>3. Paz y salvo de impuestos y multas.";
+        case 'traspaso':
+          return "<strong>Requisitos para Traspaso de Vehículo:</strong><br>1. Certificado de Tradición y Libertad del vehículo.<br>2. Copia de la cédula del vendedor y comprador.<br>3. Certificado de Revisión Técnico-Mecánica.<br>4. Paz y salvo de impuestos y multas.";
+        default:
+          return '';
+      }
+    }
+
+    function obtenerRequisitosFiscaliaSubcategoria(subcategoria) {
+        switch (subcategoria) {
+          case 'denuncia':
+            return "<strong>Requisitos para Presentar Denuncia en Fiscalía:</strong><br>1. Identificación personal (cédula, pasaporte).<br>2. Detalles precisos de los hechos denunciados.<br>3. Pruebas que respalden la denuncia (fotografías, documentos, testigos, etc.).";
+          case 'seguimientoCaso':
+            return "<strong>Requisitos para Seguimiento de Caso en Fiscalía:</strong><br>1. Identificación personal.<br>2. Número de referencia del caso (si lo tienes).<br>3. Poder legal o autorización en casos de representación.";
+          case 'asesoriaJuridica':
+            return "<strong>Requisitos para Asesoría Jurídica en Fiscalía:</strong><br>1. Solicitud de asesoría jurídica.<br>2. Documentos relacionados con el caso.<br>3. Identificación personal.";
+          default:
+            return '';
+        }
+      }
+      
+      function obtenerRequisitosEducacionSubcategoria(subcategoria) {
+        switch (subcategoria) {
+          case 'inscripcionCursos':
+            return "<strong>Requisitos para Inscripción a Cursos o Programas Académicos:</strong><br>1. Formulario de inscripción completo.<br>2. Documento de identidad.<br>3. Certificados académicos previos, si aplica.";
+          case 'solicitudCertificados':
+            return "<strong>Requisitos para Solicitud de Certificados Académicos:</strong><br>1. Formulario de solicitud de certificados.<br>2. Documento de identidad.<br>3. Detalles específicos sobre el certificado solicitado.";
+          case 'becasAyudas':
+            return "<strong>Trámites relacionados con Becas y Ayudas Económicas:</strong><br>1. Solicitud de beca o ayuda económica.<br>2. Documentos que respalden la necesidad económica.<br>3. Certificados académicos.";
+          default:
+            return '';
+        }
+      }
+  
+      function obtenerRequisitosViviendaSubcategoria(subcategoria) {
+        switch (subcategoria) {
+          case 'compraAlquilerPropiedades':
+            return "<strong>Trámites para Compra o Alquiler de Propiedades:</strong><br>1. Contrato de compra o arrendamiento.<br>2. Documentos de identificación del comprador o arrendatario.<br>3. Certificados de ingresos o solvencia económica.";
+          case 'serviciosPublicos':
+            return "<strong>Solicitud de Servicios Públicos para una Nueva Vivienda:</strong><br>1. Documento que certifique la propiedad o arrendamiento.<br>2. Documentos de identificación del solicitante.<br>3. Información sobre la dirección y características de la vivienda.";
+          default:
+            return '';
+        }
+      }
+  
+      function obtenerRequisitosEmpleoSubcategoria(subcategoria) {
+        switch (subcategoria) {
+          case 'busquedaEmpleo':
+            return "<strong>Procesos de Búsqueda de Empleo:</strong><br>1. Currículum vitae actualizado.<br>2. Cartas de recomendación, si las tienes.<br>3. Documentos de identificación.";
+          case 'creacionCurriculos':
+            return "<strong>Trámites para la Creación de Currículos:</strong><br>1. Detalles personales y de contacto.<br>2. Experiencia laboral y educación.<br>3. Habilidades y logros profesionales.";
+          case 'solicitudCertificadosLaborales':
+            return "<strong>Solicitud de Certificados Laborales:</strong><br>1. Formulario de solicitud de certificados.<br>2. Detalles específicos sobre el certificado solicitado.<br>3. Documento de identificación.";
+          default:
+            return '';
+        }
+      }
+  
+      function obtenerRequisitosMigracionSubcategoria(subcategoria) {
+        switch (subcategoria) {
+          case 'obtencionVisas':
+            return "<strong>Trámites para la Obtención de Visas:</strong><br>1. Formulario de solicitud de visa.<br>2. Pasaporte vigente.<br>3. Foto reciente tamaño pasaporte.<br>4. Documentos que respalden el motivo de la visa.";
+          case 'residenciaPermanente':
+            return "<strong>Procedimientos para la Residencia Permanente:</strong><br>1. Documento de identidad.<br>2. Prueba de ingresos o empleo estable.<br>3. Certificado de antecedentes penales.";
+          case 'ciudadaniaNaturalizacion':
+            return "<strong>Información sobre Ciudadanía y Naturalización:</strong><br>1. Documento de identidad.<br>2. Historial de residencia legal en el país.<br>3. Prueba de conocimientos sobre la cultura y la lengua del país.";
+          default:
+            return '';
+        }
+      }
+  
+      function obtenerRequisitosSaludSubcategoria(subcategoria) {
+        switch (subcategoria) {
+          case 'afiliacionServiciosMedicos':
+            return "<strong>Afiliación a Servicios Médicos:</strong><br>1. Formulario de afiliación a la entidad de salud.<br>2. Documento de identidad.<br>3. Prueba de residencia.";
+          case 'citasMedicas':
+            return "<strong>Solicitud de Citas Médicas:</strong><br>1. Documento de identificación.<br>2. Detalles sobre el motivo de la cita.<br>3. Tarjeta de afiliación a la entidad de salud.";
+          case 'tramitesMedicamentos':
+            return "<strong>Trámites para Obtener Medicamentos:</strong><br>1. Receta médica actualizada.<br>2. Documento de identificación.<br>3. Tarjeta de afiliación a la entidad de salud.";
+          default:
+            return '';
+        }
+      }
+  
+      function obtenerRequisitosFinanzasSubcategoria(subcategoria) {
+        switch (subcategoria) {
+          case 'aperturaCuentasBancarias':
+            return "<strong>Apertura de Cuentas Bancarias:</strong><br>1. Documento de identificación.<br>2. Comprobante de domicilio.<br>3. Historial crediticio, si aplica.";
+          case 'solicitudPrestamosCreditos':
+            return "<strong>Solicitud de Préstamos o Créditos:</strong><br>1. Documento de identificación.<br>2. Comprobante de ingresos.<br>3. Historial crediticio.";
+          case 'declaracionImpuestos':
+            return "<strong>Procedimientos para la Declaración de Impuestos:</strong><br>1. Documento de identificación.<br>2. Comprobante de ingresos y gastos.<br>3. Información sobre propiedades y bienes.";
+          default:
+            return '';
+        }
+      }
+  
+      function obtenerRequisitosLegalSubcategoria(subcategoria) {
+        switch (subcategoria) {
+          case 'asesoramientoLegal':
+            return "<strong>Asesoramiento Legal:</strong><br>1. Detalles sobre el caso o situación legal.<br>2. Documentos relacionados con el caso.<br>3. Documento de identificación.";
+          case 'creacionEmpresas':
+            return "<strong>Trámites para la Creación de Empresas:</strong><br>1. Documentos de constitución de la empresa.<br>2. Registro único tributario (RUT).<br>3. Documento de identificación del representante legal.";
+          case 'resolucionDisputasLegales':
+            return "<strong>Procedimientos para la Resolución de Disputas Legales:</strong><br>1. Detalles sobre la disputa.<br>2. Documentos de respaldo (contratos, acuerdos).<br>3. Documento de identificación.";
+          default:
+            return '';
+        }
+      }
+  
+      function obtenerRequisitosTransporteSubcategoria(subcategoria) {
+        switch (subcategoria) {
+          case 'renovacionLicenciasConducir':
+            return "<strong>Renovación o Solicitud de Licencias de Conducir:</strong><br>1. Documento de identificación.<br>2. Licencia de conducir actual, si aplica.<br>3. Certificado médico, si es necesario.";
+          case 'compraVentaVehiculos':
+            return "<strong>Trámites Relacionados con la Compra o Venta de Vehículos:</strong><br>1. Documento de identificación.<br>2. Certificado de tradición y libertad.<br>3. Contrato de compra y venta.";
+          case 'inscripcionCursosSeguridadVial':
+            return "<strong>Inscripción a Cursos de Seguridad Vial:</strong><br>1. Formulario de inscripción.<br>2. Documento de identificación.<br>3. Pago de la matrícula, si aplica.";
+          default:
+            return '';
+        }
+      }
+  
+      function obtenerRequisitosTurismoSubcategoria(subcategoria) {
+        switch (subcategoria) {
+          case 'obtencionVisasTuristicas':
+            return "<strong>Procesos para la Obtención de Visas Turísticas:</strong><br>1. Formulario de solicitud de visa.<br>2. Pasaporte vigente.<br>3. Reservas de alojamiento y boletos de avión.";
+          case 'informacionTuristica':
+            return "<strong>Solicitud de Información Turística:</strong><br>1. Documento de identificación.<br>2. Detalles sobre la información requerida.<br>3. Formulario de solicitud.";
+          case 'reservasTramitesTuristicos':
+            return "<strong>Reservas y Trámites para Actividades Turísticas:</strong><br>1. Documento de identificación.<br>2. Detalles sobre las actividades a reservar.<br>3. Confirmación de reservas.";
+          default:
+            return '';
+        }
+      }
+  
+      function obtenerRequisitosAsuntosSocialesSubcategoria(subcategoria) {
+        switch (subcategoria) {
+          case 'tramitesAdopciones':
+            return "<strong>Trámites Relacionados con Adopciones:</strong><br>1. Documento de identificación.<br>2. Documentos que respalden la idoneidad para adoptar.<br>3. Certificados de antecedentes penales.";
+          case 'registroProgramasAsistenciaSocial':
+            return "<strong>Registro para Programas de Asistencia Social:</strong><br>1. Formulario de registro.<br>2. Documento de identificación.<br>3. Documentos que acrediten la necesidad de asistencia.";
+          case 'procedimientosCambiosNombre':
+            return "<strong>Procedimientos para Cambios de Nombre:</strong><br>1. Documento de identificación actual y propuesto.<br>2. Justificación del cambio de nombre.<br>3. Certificados de antecedentes penales.";
+          default:
+            return '';
+        }
+      }
+    </script>
+  
+  </body>
+  </html>
+  
